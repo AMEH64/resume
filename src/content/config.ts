@@ -8,6 +8,7 @@ const jobsCollection = defineCollection({
         location: z.string().min(1),
         startDate: z.string().date(),
         endDate: z.string().date().optional(),
+        summary: z.string().min(1),
         highlights: z.string().min(1).array().min(3).max(7),
         // tags: z.string().min(1).array().min(1),
     }),
