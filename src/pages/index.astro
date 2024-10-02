@@ -2,6 +2,7 @@
 import Layout from "../layouts/Layout.astro";
 import { getCollection } from "astro:content";
 import { compareDesc } from "date-fns/compareDesc";
+import { format } from "date-fns/format";
 
 const jobs = await getCollection("jobs");
 ---
@@ -124,11 +125,13 @@ const jobs = await getCollection("jobs");
                   <h3 class="text-lg font-bold">{job.data.position}</h3>
                   <p>
                     <time datetime={job.data.startDate}>
-                      {job.data.startDate}
+                      {format(job.data.startDate, "MMMM, yyyy")}
                     </time>
                     {" - "}
                     <time datetime={job.data.endDate}>
-                      {job.data.endDate ?? "Present"}
+                      {job.data.endDate
+                        ? format(job.data.endDate, "MMMM, yyyy")
+                        : "Present"}
                     </time>
                   </p>
                 </div>
@@ -137,9 +140,7 @@ const jobs = await getCollection("jobs");
                   <p>{job.data.location}</p>
                 </div>
               </div>
-              <p class="mb-2">
-                {job.data.summary}
-              </p>
+              <p class="mb-2">{job.data.summary}</p>
               <ul class="list-disc ml-6 space-y-2 mb-4">
                 {job.data.highlights.map((highlight) => (
                   <li>{highlight}</li>
