@@ -1,51 +1,51 @@
 ---
-import { compareDesc } from "date-fns/compareDesc";
-import { format } from "date-fns/format";
-import { getCollection } from "astro:content";
-import AngularIcon from "~/components/icons/AngularIcon.astro";
-import AtSymbolIcon from "~/components/icons/AtSymbolIcon.astro";
-import AzureDevOpsIcon from "~/components/icons/AzureDevOpsIcon.astro";
-import AzureIcon from "~/components/icons/AzureIcon.astro";
-import Badge from "~/components/Badge.astro";
-import BootstrapIcon from "~/components/icons/BootstrapIcon.astro";
-import CSharpIcon from "~/components/icons/CSharpIcon.astro";
-import CssIcon from "~/components/icons/CssIcon.astro";
-import DotNetIcon from "~/components/icons/DotNetIcon.astro";
-import FigmaIcon from "~/components/icons/FigmaIcon.astro";
-import GitHubIcon from "~/components/icons/GitHubIcon.astro";
-import GitIcon from "~/components/icons/GitIcon.astro";
-import HtmlIcon from "~/components/icons/HtmlIcon.astro";
-import invariant from "tiny-invariant";
-import JavaScriptIcon from "~/components/icons/JavaScriptIcon.astro";
-import Layout from "../layouts/Layout.astro";
-import LinkIcon from "~/components/icons/LinkIcon.astro";
-import ReactIcon from "~/components/icons/ReactIcon.astro";
-import SassIcon from "~/components/icons/SassIcon.astro";
-import SqlServerIcon from "~/components/icons/SqlServerIcon.astro";
-import TailwindCssIcon from "~/components/icons/TailwindCssIcon.astro";
-import TypeScriptIcon from "~/components/icons/TypeScriptIcon.astro";
+import { compareDesc } from 'date-fns/compareDesc'
+import { format } from 'date-fns/format'
+import { getCollection } from 'astro:content'
+import AngularIcon from '~/components/icons/AngularIcon.astro'
+import AtSymbolIcon from '~/components/icons/AtSymbolIcon.astro'
+import AzureDevOpsIcon from '~/components/icons/AzureDevOpsIcon.astro'
+import AzureIcon from '~/components/icons/AzureIcon.astro'
+import Badge from '~/components/Badge.astro'
+import BootstrapIcon from '~/components/icons/BootstrapIcon.astro'
+import CSharpIcon from '~/components/icons/CSharpIcon.astro'
+import CssIcon from '~/components/icons/CssIcon.astro'
+import DotNetIcon from '~/components/icons/DotNetIcon.astro'
+import FigmaIcon from '~/components/icons/FigmaIcon.astro'
+import GitHubIcon from '~/components/icons/GitHubIcon.astro'
+import GitIcon from '~/components/icons/GitIcon.astro'
+import HtmlIcon from '~/components/icons/HtmlIcon.astro'
+import invariant from 'tiny-invariant'
+import JavaScriptIcon from '~/components/icons/JavaScriptIcon.astro'
+import Layout from '../layouts/Layout.astro'
+import LinkIcon from '~/components/icons/LinkIcon.astro'
+import ReactIcon from '~/components/icons/ReactIcon.astro'
+import SassIcon from '~/components/icons/SassIcon.astro'
+import SqlServerIcon from '~/components/icons/SqlServerIcon.astro'
+import TailwindCssIcon from '~/components/icons/TailwindCssIcon.astro'
+import TypeScriptIcon from '~/components/icons/TypeScriptIcon.astro'
 
-const jobs = await getCollection("jobs");
-const education = await getCollection("education");
+const jobs = await getCollection('jobs')
+const education = await getCollection('education')
 
 const icons = {
   Angular: AngularIcon,
-  "Azure DevOps": AzureDevOpsIcon,
+  'Azure DevOps': AzureDevOpsIcon,
   Azure: AzureIcon,
   Bootstrap: BootstrapIcon,
-  "C#": CSharpIcon,
+  'C#': CSharpIcon,
   CSS: CssIcon,
-  ".NET": DotNetIcon,
+  '.NET': DotNetIcon,
   Figma: FigmaIcon,
   Git: GitIcon,
   HTML: HtmlIcon,
   JavaScript: JavaScriptIcon,
   React: ReactIcon,
   Sass: SassIcon,
-  "SQL Server": SqlServerIcon,
-  "Tailwind CSS": TailwindCssIcon,
+  'SQL Server': SqlServerIcon,
+  'Tailwind CSS': TailwindCssIcon,
   TypeScript: TypeScriptIcon,
-} satisfies Record<string, Function>;
+} satisfies Record<string, Function>
 ---
 
 <style>
@@ -121,20 +121,20 @@ const icons = {
       {
         jobs
           .sort((a, b) => compareDesc(a.data.startDate, b.data.startDate))
-          .map((job) => (
+          .map(job => (
             <article>
               <div class="flex flex-col justify-between mb-6">
                 <div class="flex items-center justify-between mb-2">
                   <h3 class="text-lg font-bold">{job.data.position}</h3>
                   <p>
                     <time datetime={job.data.startDate}>
-                      {format(job.data.startDate, "MMMM yyyy")}
+                      {format(job.data.startDate, 'MMMM yyyy')}
                     </time>
-                    {" - "}
+                    {' - '}
                     <time datetime={job.data.endDate}>
                       {job.data.endDate
-                        ? format(job.data.endDate, "MMMM yyyy")
-                        : "Present"}
+                        ? format(job.data.endDate, 'MMMM yyyy')
+                        : 'Present'}
                     </time>
                   </p>
                 </div>
@@ -145,14 +145,14 @@ const icons = {
               </div>
               <p class="mb-2">{job.data.summary}</p>
               <ul class="list-disc ml-6 space-y-2 mb-4">
-                {job.data.highlights.map((highlight) => (
+                {job.data.highlights.map(highlight => (
                   <li>{highlight}</li>
                 ))}
               </ul>
               <ul class="flex flex-wrap gap-3 mb-4">
-                {job.data.tags?.map((tag) => {
-                  const Icon = icons[tag as keyof typeof icons];
-                  invariant(Icon, `Icon for tag ${tag} could not be found.`);
+                {job.data.tags?.map(tag => {
+                  const Icon = icons[tag as keyof typeof icons]
+                  invariant(Icon, `Icon for tag ${tag} could not be found.`)
                   return (
                     <li>
                       <Badge>
@@ -160,7 +160,7 @@ const icons = {
                         {tag}
                       </Badge>
                     </li>
-                  );
+                  )
                 })}
               </ul>
             </article>
@@ -209,14 +209,14 @@ const icons = {
         Education
       </h2>
       {
-        education.map((item) => (
+        education.map(item => (
           <article>
             <div class="flex flex-col justify-between mb-6">
               <div class="flex items-center justify-between mb-2">
                 <h3 class="text-lg font-bold">{item.data.degree}</h3>
                 <p>
                   <time datetime={item.data.graduationDate}>
-                    {format(item.data.graduationDate, "MMMM yyyy")}
+                    {format(item.data.graduationDate, 'MMMM yyyy')}
                   </time>
                 </p>
               </div>
