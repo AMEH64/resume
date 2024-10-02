@@ -10,17 +10,42 @@ import Badge from "~/components/Badge.astro";
 import BootstrapIcon from "~/components/icons/BootstrapIcon.astro";
 import CSharpIcon from "~/components/icons/CSharpIcon.astro";
 import CssIcon from "~/components/icons/CssIcon.astro";
+import DotNetIcon from "~/components/icons/DotNetIcon.astro";
 import FigmaIcon from "~/components/icons/FigmaIcon.astro";
 import GitHubIcon from "~/components/icons/GitHubIcon.astro";
 import GitIcon from "~/components/icons/GitIcon.astro";
+import HtmlIcon from "~/components/icons/HtmlIcon.astro";
+import invariant from "tiny-invariant";
+import JavaScriptIcon from "~/components/icons/JavaScriptIcon.astro";
 import Layout from "../layouts/Layout.astro";
 import LinkIcon from "~/components/icons/LinkIcon.astro";
 import ReactIcon from "~/components/icons/ReactIcon.astro";
+import SassIcon from "~/components/icons/SassIcon.astro";
 import SqlServerIcon from "~/components/icons/SqlServerIcon.astro";
 import TailwindCssIcon from "~/components/icons/TailwindCssIcon.astro";
 import TypeScriptIcon from "~/components/icons/TypeScriptIcon.astro";
 
 const jobs = await getCollection("jobs");
+const education = await getCollection("education");
+
+const icons = {
+  Angular: AngularIcon,
+  "Azure DevOps": AzureDevOpsIcon,
+  Azure: AzureIcon,
+  Bootstrap: BootstrapIcon,
+  "C#": CSharpIcon,
+  CSS: CssIcon,
+  ".NET": DotNetIcon,
+  Figma: FigmaIcon,
+  Git: GitIcon,
+  HTML: HtmlIcon,
+  JavaScript: JavaScriptIcon,
+  React: ReactIcon,
+  Sass: SassIcon,
+  "SQL Server": SqlServerIcon,
+  "Tailwind CSS": TailwindCssIcon,
+  TypeScript: TypeScriptIcon,
+} satisfies Record<string, Function>;
 ---
 
 <style>
@@ -103,12 +128,12 @@ const jobs = await getCollection("jobs");
                   <h3 class="text-lg font-bold">{job.data.position}</h3>
                   <p>
                     <time datetime={job.data.startDate}>
-                      {format(job.data.startDate, "MMMM, yyyy")}
+                      {format(job.data.startDate, "MMMM yyyy")}
                     </time>
                     {" - "}
                     <time datetime={job.data.endDate}>
                       {job.data.endDate
-                        ? format(job.data.endDate, "MMMM, yyyy")
+                        ? format(job.data.endDate, "MMMM yyyy")
                         : "Present"}
                     </time>
                   </p>
@@ -124,17 +149,25 @@ const jobs = await getCollection("jobs");
                   <li>{highlight}</li>
                 ))}
               </ul>
+              <ul class="flex flex-wrap gap-3 mb-4">
+                {job.data.tags?.map((tag) => {
+                  const Icon = icons[tag as keyof typeof icons];
+                  invariant(Icon, `Icon for tag ${tag} could not be found.`);
+                  return (
+                    <li>
+                      <Badge>
+                        <Icon class="size-3.5" />
+                        {tag}
+                      </Badge>
+                    </li>
+                  );
+                })}
+              </ul>
             </article>
           ))
       }
-      <article class="">
+      <article class="hidden">
         <ul class="flex flex-wrap gap-2 mb-4" aria-label="Technologies used">
-          <li>
-            <Badge>
-              <AngularIcon class="size-3.5" />
-              Angular
-            </Badge>
-          </li>
           <li>
             <Badge>
               <AzureIcon
@@ -142,141 +175,60 @@ const jobs = await getCollection("jobs");
               />
               Azure
             </Badge>
-            <li>
-              <Badge>
-                <AzureDevOpsIcon class="size-3.5" />
-                Azure DevOps
-              </Badge>
-            </li>
-            <li>
-              <Badge>
-                <BootstrapIcon class="size-3.5" />
-                Bootstrap
-              </Badge>
-            </li>
-            <li>
-              <Badge>
-                <CssIcon class="size-3.5" />
-                CSS
-              </Badge>
-            </li>
-            <li>
-              <Badge>
-                <CSharpIcon class="size-3.5" />
-                C#
-              </Badge>
-            </li>
-            <li>
-              <Badge>
-                <svg
-                  class="size-3.5"
-                  viewBox="0 0 456 456"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <rect
-                    class="size-full fill-blue-700 dark:fill-blue-300 print:fill-zinc-950"
-                  ></rect>
-                  <path
-                    d="M81.2738 291.333C78.0496 291.333 75.309 290.259 73.052 288.11C70.795 285.906 69.6665 283.289 69.6665 280.259C69.6665 277.173 70.795 274.529 73.052 272.325C75.309 270.121 78.0496 269.019 81.2738 269.019C84.5518 269.019 87.3193 270.121 89.5763 272.325C91.887 274.529 93.0424 277.173 93.0424 280.259C93.0424 283.289 91.887 285.906 89.5763 288.11C87.3193 290.259 84.5518 291.333 81.2738 291.333Z"
-                    class="fill-white dark:fill-zinc-950 print:text-zinc-950"
-                  ></path>
-                  <path
-                    d="M210.167 289.515H189.209L133.994 202.406C132.597 200.202 131.441 197.915 130.528 195.546H130.044C130.474 198.081 130.689 203.508 130.689 211.827V289.515H112.149V171H134.477L187.839 256.043C190.096 259.57 191.547 261.994 192.192 263.316H192.514C191.977 260.176 191.708 254.859 191.708 247.365V171H210.167V289.515Z"
-                    class="fill-white dark:fill-zinc-950 print:text-zinc-950"
-                  ></path>
-                  <path
-                    d="M300.449 289.515H235.561V171H297.87V187.695H254.746V221.249H294.485V237.861H254.746V272.903H300.449V289.515Z"
-                    class="fill-white dark:fill-zinc-950 print:text-zinc-950"
-                  ></path>
-                  <path
-                    d="M392.667 187.695H359.457V289.515H340.272V187.695H307.143V171H392.667V187.695Z"
-                    class="fill-white dark:fill-zinc-950 print:text-zinc-950"
-                  ></path>
-                </svg>
-                .NET
-              </Badge>
-            </li>
-            <li>
-              <Badge>
-                <FigmaIcon
-                  class="size-3.5 stroke-white dark:stroke-zinc-950 print:stroke-white"
-                />
-                Figma
-              </Badge>
-            </li>
-            <li>
-              <Badge>
-                <GitIcon class="size-3.5" />
-                Git
-              </Badge>
-            </li>
-            <li>
-              <Badge>
-                <SqlServerIcon class="size-3.5" />
-                SQL Server
-              </Badge>
-            </li>
-            <li>
-              <Badge>
-                <ReactIcon class="size-3.5" />
-                <span>React</span>
-              </Badge>
-            </li>
-            <li>
-              <Badge>
-                <TypeScriptIcon class="size-3.5" />
-                <span>TypeScript</span>
-              </Badge>
-            </li>
-            <li>
-              <Badge>
-                <svg
-                  class="size-3.5 stroke-white dark:stroke-zinc-950 print:stroke-white"
-                  fill="currentColor"
-                  viewBox="0 0 128 128"
-                >
-                  <path
-                    d="M91.557 1.92 49.05 10.248a1.057 1.057 0 0 0-.856.977l-2.617 44.168a1.05 1.05 0 0 0 1.299 1.097l11.836-2.736c1.444-.332 2.78.972 2.482 2.424l-3.517 17.218a1.047 1.047 0 0 0 1.35 1.227l7.308-2.223c1.475-.447 2.929.881 2.62 2.391l-5.59 27.047c-.128.62.192 1.014.638 1.197.446.183.95.127 1.293-.404l.61-.945 34.626-69.106c.41-.818-.254-1.692-1.146-1.52L87.2 33.413c-1.49.29-2.792-1.136-2.369-2.594l7.951-27.562A1.046 1.046 0 0 0 91.56 1.92h-.002zM6.086 14.86a3.123 3.123 0 0 0-.463.02c-2.106.254-3.467 2.637-2.318 4.651l58.582 102.73c1.203 2.11 4.25 2.098 5.437-.023L124.766 19.52c1.289-2.305-.688-5.067-3.286-4.594l-32.744 5.969-2.943 10.2v.003a1.043 1.043 0 0 0 1.217 1.334h.002l12.183-2.354v.002c1.646-.319 2.986 1.446 2.233 2.947l-34.653 69.155-.638.992a2.055 2.055 0 0 1-2.512.787 2.057 2.057 0 0 1-1.238-2.324l5.59-27.047a1.05 1.05 0 0 0-1.35-1.233l-7.309 2.223c-1.472.448-2.927-.875-2.62-2.383l3.517-17.218a1.049 1.049 0 0 0-1.278-1.25l-11.835 2.736c-1.328.304-2.6-.771-2.522-2.131l1.973-33.277L6.566 14.91a3.279 3.279 0 0 0-.48-.05z"
-                  ></path>
-                </svg>
-                Vite
-              </Badge>
-            </li>
-            <li>
-              <Badge>
-                <TailwindCssIcon class="size-3.5" />
-                <span>Tailwind CSS</span>
-              </Badge>
-            </li>
+          </li>
+          <li>
+            <Badge>
+              <FigmaIcon
+                class="size-3.5 stroke-white dark:stroke-zinc-950 print:stroke-white"
+              />
+              Figma
+            </Badge>
+          </li>
+          <li>
+            <Badge>
+              <svg
+                class="size-3.5 stroke-white dark:stroke-zinc-950 print:stroke-white"
+                fill="currentColor"
+                viewBox="0 0 128 128"
+              >
+                <path
+                  d="M91.557 1.92 49.05 10.248a1.057 1.057 0 0 0-.856.977l-2.617 44.168a1.05 1.05 0 0 0 1.299 1.097l11.836-2.736c1.444-.332 2.78.972 2.482 2.424l-3.517 17.218a1.047 1.047 0 0 0 1.35 1.227l7.308-2.223c1.475-.447 2.929.881 2.62 2.391l-5.59 27.047c-.128.62.192 1.014.638 1.197.446.183.95.127 1.293-.404l.61-.945 34.626-69.106c.41-.818-.254-1.692-1.146-1.52L87.2 33.413c-1.49.29-2.792-1.136-2.369-2.594l7.951-27.562A1.046 1.046 0 0 0 91.56 1.92h-.002zM6.086 14.86a3.123 3.123 0 0 0-.463.02c-2.106.254-3.467 2.637-2.318 4.651l58.582 102.73c1.203 2.11 4.25 2.098 5.437-.023L124.766 19.52c1.289-2.305-.688-5.067-3.286-4.594l-32.744 5.969-2.943 10.2v.003a1.043 1.043 0 0 0 1.217 1.334h.002l12.183-2.354v.002c1.646-.319 2.986 1.446 2.233 2.947l-34.653 69.155-.638.992a2.055 2.055 0 0 1-2.512.787 2.057 2.057 0 0 1-1.238-2.324l5.59-27.047a1.05 1.05 0 0 0-1.35-1.233l-7.309 2.223c-1.472.448-2.927-.875-2.62-2.383l3.517-17.218a1.049 1.049 0 0 0-1.278-1.25l-11.835 2.736c-1.328.304-2.6-.771-2.522-2.131l1.973-33.277L6.566 14.91a3.279 3.279 0 0 0-.48-.05z"
+                ></path>
+              </svg>
+              Vite
+            </Badge>
           </li>
         </ul>
       </article>
-      <section aria-labelledby="education">
-        <h2
-          id="education"
-          class="text-xl uppercase font-semibold after:block after:mt-1/2 after:h-1.5 after:w-[1.25em] after:rounded after:bg-blue-600 dark:after:bg-blue-400 print:border-b print:border-zinc-700 mb-8"
-        >
-          Education
-        </h2>
-        <article>
-          <div class="flex flex-col justify-between mb-6">
-            <div class="flex items-center justify-between mb-2">
-              <h3 class="text-lg font-bold">
-                B.A. Computer Science, Management Minor
-              </h3>
-              <p>
-                <time datetime="2017-05-31">May 2017</time>
-              </p>
+    </section>
+    <section aria-labelledby="education">
+      <h2
+        id="education"
+        class="text-xl uppercase font-semibold after:block after:mt-1/2 after:h-1.5 after:w-[1.25em] after:rounded after:bg-blue-600 dark:after:bg-blue-400 print:border-b print:border-zinc-700 mb-8"
+      >
+        Education
+      </h2>
+      {
+        education.map((item) => (
+          <article>
+            <div class="flex flex-col justify-between mb-6">
+              <div class="flex items-center justify-between mb-2">
+                <h3 class="text-lg font-bold">{item.data.degree}</h3>
+                <p>
+                  <time datetime={item.data.graduationDate}>
+                    {format(item.data.graduationDate, "MMMM yyyy")}
+                  </time>
+                </p>
+              </div>
+              <div class="flex items-center justify-between">
+                <p>{item.data.school}</p>
+                <p>{item.data.location}</p>
+              </div>
             </div>
-            <div class="flex items-center justify-between">
-              <p>University of Minnesota</p>
-              <p>Minneapolis, MN</p>
-            </div>
-          </div>
-          <p>Co-founded Social Coding, a student led organization.</p>
-        </article>
-      </section>
+            <p>{item.data.summary}</p>
+          </article>
+        ))
+      }
     </section>
   </main>
 </Layout>
